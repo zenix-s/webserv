@@ -1,20 +1,19 @@
 #include "TaskController.hpp"
+#include "../../core/responses/OkHttpResponse.hpp"
 #include <sstream>
 
-TaskController::TaskController() : AController("/task")
+TaskController::TaskController()
 {
 }
 
-TaskController::TaskController(const TaskController& other) : AController(other._route)
+TaskController::TaskController(const TaskController& other)
 {
+    (void)other; // No state to copy
 }
 
 TaskController& TaskController::operator=(const TaskController& other)
 {
-    if (this != &other)
-    {
-        _route = other._route;
-    }
+    (void)other; // No state to copy
     return *this;
 }
 
@@ -24,11 +23,7 @@ TaskController::~TaskController()
 
 HttpResponse TaskController::handleGet(const HttpRequest& request)
 {
-    HttpResponse response;
     // Simple implementation for GET /task
-    response.setStatus(200, "OK");
-    response.setHeader("Content-Type", "text/html");
-
     std::stringstream body;
     body << "<html><body>"
          << "<h1>Task List</h1>"
@@ -36,9 +31,7 @@ HttpResponse TaskController::handleGet(const HttpRequest& request)
          << "<p>Request URL: " << request.getUrl() << "</p>"
          << "</body></html>";
 
-    response.setBody(body.str());
-
-    return response;
+    return OkHttpResponse(body.str(), "text/html");
 }
 
 HttpResponse TaskController::handlePost(const HttpRequest& request)

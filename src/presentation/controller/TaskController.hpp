@@ -1,25 +1,26 @@
 #ifndef TASK_CONTROLLER_HPP
 #define TASK_CONTROLLER_HPP
 
-#include "abstractions/AController.hpp"
+#include "../../core/HttpRequest.hpp"
+#include "../../core/HttpResponse.hpp"
 
 /**
- * Controlador para la ruta "/task".
- * Implementa el manejo de solicitudes GET, POST y DELETE para tareas.
+ * Simple controller for the "/task" route.
+ * Handles GET, POST and DELETE requests for tasks.
  */
-class TaskController : public AController
+class TaskController
 {
   public:
     // Canonical form
     TaskController();
     TaskController(const TaskController& other);
     TaskController& operator=(const TaskController& other);
-    virtual ~TaskController();
+    ~TaskController();
 
-    // Métodos para manejar solicitudes HTTP
-    virtual HttpResponse handleGet(const HttpRequest& request);
-    virtual HttpResponse handlePost(const HttpRequest& request);
-    virtual HttpResponse handleDelete(const HttpRequest& request);
+    // Methods to handle HTTP requests
+    HttpResponse handleGet(const HttpRequest& request);
+    HttpResponse handlePost(const HttpRequest& request);
+    HttpResponse handleDelete(const HttpRequest& request);
 };
 
 #endif // TASK_CONTROLLER_HPP

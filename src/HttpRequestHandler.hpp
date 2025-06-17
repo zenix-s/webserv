@@ -5,19 +5,19 @@
 
 class HttpRequest;
 class HttpResponse;
+class BadRequestHttpResponse;
 
 /**
- * Clase encargada de manejar una solicitud HTTP y generar la respuesta correspondiente.
- * Utiliza ControllerRegistry para dirigir las solicitudes a los controladores adecuados.
+ * Simplified HTTP request handler that validates requests and delegates
+ * to the controller registry for processing.
  */
 class HttpRequestHandler
 {
   private:
-    // Registro de controladores disponibles
-    ControllerRegistry _controllerRegistry;
+    ControllerRegistry _registry;
 
-    // Métodos auxiliares para procesar solicitudes inválidas
-    void handleBadRequest(HttpResponse& response);
+    // Helper method for invalid requests
+    HttpResponse createBadRequestResponse();
 
   public:
     // Canonical form
@@ -26,8 +26,8 @@ class HttpRequestHandler
     HttpRequestHandler& operator=(const HttpRequestHandler& other);
     ~HttpRequestHandler();
 
-    // Procesa la solicitud y genera la respuesta.
+    // Main method to handle HTTP requests
     HttpResponse handle(const HttpRequest& request);
 };
 
-#endif // HTTP_REQUEST_HANDLER_HPP
+#endif

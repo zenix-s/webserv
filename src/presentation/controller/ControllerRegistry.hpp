@@ -3,22 +3,14 @@
 
 #include "../../core/HttpRequest.hpp"
 #include "../../core/HttpResponse.hpp"
-#include "abstractions/AController.hpp"
 #include <string>
-#include <vector>
 
 /**
- * Registro de controladores que gestiona todos los controladores disponibles.
- * Facilita encontrar el controlador adecuado según la URL de la solicitud.
+ * Simple registry that routes HTTP requests to appropriate handlers.
+ * No dynamic memory allocation - creates controllers on demand.
  */
 class ControllerRegistry
 {
-  private:
-    std::vector<AController*> _controllers;
-
-    // Busca el controlador correspondiente a la ruta solicitada
-    AController* findController(const std::string& route) const;
-
   public:
     // Canonical form
     ControllerRegistry();
@@ -26,11 +18,17 @@ class ControllerRegistry
     ControllerRegistry& operator=(const ControllerRegistry& other);
     ~ControllerRegistry();
 
-    // Registra todos los controladores disponibles
-    void registerControllers();
-
-    // Procesa una solicitud encontrando el controlador adecuado
+    // Main method to process requests
     HttpResponse processRequest(const HttpRequest& request);
+
+  private:
+    // Route-specific handlers
+    HttpResponse handleTaskRoute(const HttpRequest& request);
+    HttpResponse handleNotFound();
+    HttpResponse handleMethodNotAllowed();
+
+    // Helper method to match routes
+    bool matchesRoute(const std::string& url, const std::string& routePrefix) const;
 };
 
 #endif // CONTROLLER_REGISTRY_HPP

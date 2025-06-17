@@ -9,13 +9,13 @@ SRCS    := src/main.cpp \
            src/core/HttpServer.cpp \
            src/core/HttpRequest.cpp \
            src/core/HttpResponse.cpp \
+           src/core/responses/OkHttpResponse.cpp \
+           src/core/responses/BadRequestHttpResponse.cpp \
            src/HttpRequestHandler.cpp \
            src/presentation/controller/ControllerRegistry.cpp \
            src/presentation/controller/TaskController.cpp \
-           src/presentation/controller/abstractions/AController.cpp \
 
 OBJS    := $(SRCS:.cpp=.o)
-DEPS    := $(SRCS:.cpp=.d)
 
 all: $(NAME)
 
@@ -23,12 +23,10 @@ $(NAME): $(OBJS)
 	$(COMPILER) $(FLAGS) -o $@ $(OBJS)
 
 %.o: %.cpp
-	$(COMPILER) $(FLAGS) -MMD -c $< -o $@
-
--include $(DEPS)
+	$(COMPILER) $(FLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(DEPS)
+	rm -f $(OBJS)
 
 fclean: clean
 	rm -f $(NAME)

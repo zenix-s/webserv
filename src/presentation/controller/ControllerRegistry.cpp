@@ -1,113 +1,90 @@
 #include "ControllerRegistry.hpp"
 #include "TaskController.hpp"
 
-// Constructor: registra los controladores disponibles
+// Constructor
 ControllerRegistry::ControllerRegistry()
 {
-    registerControllers();
 }
 
-// Constructor de copia
+// Copy constructor
 ControllerRegistry::ControllerRegistry(const ControllerRegistry& other)
 {
-    // Copia profunda de los controladores
-    _controllers.reserve(other._controllers.size());
-    for (size_t i = 0; i < other._controllers.size(); ++i)
-    {
-        // Solo tenemos TaskController, pero si hay más, aquí se debe clonar apropiadamente
-        AController* original = other._controllers[i];
-        if (original->getRoute() == "/task")
-            _controllers.push_back(new TaskController(*static_cast<TaskController*>(original)));
-        // Agregar aquí otros controladores si existen
-    }
+    (void)other; // No state to copy
 }
 
-// Operador de asignación
+// Assignment operator
 ControllerRegistry& ControllerRegistry::operator=(const ControllerRegistry& other)
 {
-    if (this != &other)
-    {
-        // Liberar controladores actuales
-        for (size_t i = 0; i < _controllers.size(); ++i)
-            delete _controllers[i];
-        _controllers.clear();
-
-        // Copiar controladores del otro objeto
-        _controllers.reserve(other._controllers.size());
-        for (size_t i = 0; i < other._controllers.size(); ++i)
-        {
-            AController* orig = other._controllers[i];
-            if (orig->getRoute() == "/task")
-                _controllers.push_back(new TaskController(*static_cast<TaskController*>(orig)));
-            // Agregar aquí otros controladores si existen
-        }
-    }
+    (void)other; // No state to copy
     return *this;
 }
 
-// Destructor: libera la memoria de los controladores
+// Destructor
 ControllerRegistry::~ControllerRegistry()
 {
-    for (size_t i = 0; i < _controllers.size(); ++i)
-        delete _controllers[i];
-    _controllers.clear();
 }
 
-// Registra todos los controladores disponibles
-void ControllerRegistry::registerControllers()
-{
-    // Si ya hay controladores registrados, no volver a registrar
-    if (!_controllers.empty())
-        return;
-    _controllers.push_back(new TaskController());
-    // Aquí se pueden agregar más controladores en el futuro
-}
-
-// Busca el controlador correspondiente a la ruta solicitada
-AController* ControllerRegistry::findController(const std::string& route) const
-{
-    for (size_t i = 0; i < _controllers.size(); ++i)
-    {
-        // Coincidencia exacta de la ruta base
-        if (route.find(_controllers[i]->getRoute()) == 0)
-            return _controllers[i];
-    }
-    return NULL;
-}
-
-// Procesa una solicitud encontrando el controlador adecuado
+// Main request processing method
 HttpResponse ControllerRegistry::processRequest(const HttpRequest& request)
 {
-    AController* controller = findController(request.getUrl());
+    const std::string& url = request.getUrl();
 
-    if (!controller)
+    // Route to appropriate handler
+    if (matchesRoute(url, "/task"))
     {
-        HttpResponse response;
-        response.setStatus(404, "Not Found");
-        response.setHeader("Content-Type", "text/plain");
-        response.setBody("No controller found for this route");
-        return response;
+        return handleTaskRoute(request);
     }
 
+    // No matching route found
+    return handleNotFound();
+}
+
+// Handle /task route
+HttpResponse ControllerRegistry::handleTaskRoute(const HttpRequest& request)
+{
+    TaskController controller;
     const std::string& method = request.getMethod();
+
     if (method == "GET")
     {
-        return controller->handleGet(request);
+        return controller.handleGet(request);
     }
     else if (method == "POST")
     {
-        return controller->handlePost(request);
+        return controller.handlePost(request);
     }
     else if (method == "DELETE")
     {
-        return controller->handleDelete(request);
+        return controller.handleDelete(request);
     }
     else
     {
-        HttpResponse response;
-        response.setStatus(405, "Method Not Allowed");
-        response.setHeader("Content-Type", "text/plain");
-        response.setBody("HTTP method not supported");
-        return response;
+        return handleMethodNotAllowed();
     }
+}
+
+// Handle 404 Not Found
+HttpResponse ControllerRegistry::handleNotFound()
+{
+    HttpResponse response;
+    response.setStatus(404, "Not Found");
+    response.setHeader("Content-Type", "text/plain");
+    response.setBody("No controller found for this route");
+    return response;
+}
+
+// Handle 405 Method Not Allowed
+HttpResponse ControllerRegistry::handleMethodNotAllowed()
+{
+    HttpResponse response;
+    response.setStatus(405, "Method Not Allowed");
+    response.setHeader("Content-Type", "text/plain");
+    response.setBody("HTTP method not supported");
+    return response;
+}
+
+// Helper method to check if URL matches a route prefix
+bool ControllerRegistry::matchesRoute(const std::string& url, const std::string& routePrefix) const
+{
+    return url.find(routePrefix) == 0;
 }

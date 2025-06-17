@@ -1,12 +1,13 @@
 #include "HttpRequestHandler.hpp"
 #include "core/HttpRequest.hpp"
 #include "core/HttpResponse.hpp"
+#include "core/responses/BadRequestHttpResponse.hpp"
 
-HttpRequestHandler::HttpRequestHandler() : _controllerRegistry()
+HttpRequestHandler::HttpRequestHandler() : _registry()
 {
 }
 
-HttpRequestHandler::HttpRequestHandler(const HttpRequestHandler& other) : _controllerRegistry(other._controllerRegistry)
+HttpRequestHandler::HttpRequestHandler(const HttpRequestHandler& other) : _registry(other._registry)
 {
 }
 
@@ -14,7 +15,7 @@ HttpRequestHandler& HttpRequestHandler::operator=(const HttpRequestHandler& othe
 {
     if (this != &other)
     {
-        _controllerRegistry = other._controllerRegistry;
+        _registry = other._registry;
     }
     return *this;
 }
@@ -27,19 +28,13 @@ HttpResponse HttpRequestHandler::handle(const HttpRequest& request)
 {
     if (!request.isValid())
     {
-        HttpResponse response;
-        handleBadRequest(response);
-        return response;
+        return createBadRequestResponse();
     }
 
-    // Delegar el procesamiento al controlador correspondiente
-    return _controllerRegistry.processRequest(request);
+    return _registry.processRequest(request);
 }
 
-// Maneja solicitudes inválidas o no soportadas
-void HttpRequestHandler::handleBadRequest(HttpResponse& response)
+HttpResponse HttpRequestHandler::createBadRequestResponse()
 {
-    response.setStatus(400, "Bad Request");
-    response.setHeader("Content-Type", "text/plain");
-    response.setBody("Bad Request");
+    return BadRequestHttpResponse();
 }
