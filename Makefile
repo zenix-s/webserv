@@ -11,6 +11,8 @@ SRCS    := src/main.cpp \
            src/core/HttpResponse.cpp \
            src/core/responses/OkHttpResponse.cpp \
            src/core/responses/BadRequestHttpResponse.cpp \
+           src/core/responses/NotImplementedHttpResponse.cpp \
+           src/core/responses/MethodNotAllowedHttpResponse.cpp \
            src/HttpRequestHandler.cpp \
            src/presentation/controller/ControllerRegistry.cpp \
            src/presentation/controller/AController.cpp \

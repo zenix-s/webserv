@@ -2,7 +2,6 @@
 #define ACONTROLLER_HPP
 
 #include "IController.hpp"
-#include "../../core/responses/BadRequestHttpResponse.hpp"
 
 /**
  * Abstract base controller class that provides default implementations

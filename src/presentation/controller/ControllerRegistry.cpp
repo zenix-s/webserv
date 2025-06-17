@@ -1,7 +1,8 @@
 #include "ControllerRegistry.hpp"
+#include "../../core/responses/MethodNotAllowedHttpResponse.hpp"
+#include "IController.hpp"
 #include "TaskController.hpp"
 #include "UserController.hpp"
-#include "IController.hpp"
 
 // Constructor
 ControllerRegistry::ControllerRegistry()
@@ -72,21 +73,13 @@ HttpResponse ControllerRegistry::handleControllerRequest(IController& controller
 
     // Route to appropriate handler method
     if (method == "GET")
-    {
         return controller.handleGet(request);
-    }
     else if (method == "POST")
-    {
         return controller.handlePost(request);
-    }
     else if (method == "DELETE")
-    {
         return controller.handleDelete(request);
-    }
     else
-    {
         return handleMethodNotAllowed();
-    }
 }
 
 // Handle 404 Not Found
@@ -102,11 +95,7 @@ HttpResponse ControllerRegistry::handleNotFound()
 // Handle 405 Method Not Allowed
 HttpResponse ControllerRegistry::handleMethodNotAllowed()
 {
-    HttpResponse response;
-    response.setStatus(405, "Method Not Allowed");
-    response.setHeader("Content-Type", "text/plain");
-    response.setBody("HTTP method not supported");
-    return response;
+    return MethodNotAllowedHttpResponse("HTTP method not supported");
 }
 
 // Helper method to check if URL matches a route prefix

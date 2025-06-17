@@ -1,5 +1,7 @@
 #include "AController.hpp"
 #include "../../core/HttpResponse.hpp"
+#include "../../core/responses/MethodNotAllowedHttpResponse.hpp"
+#include "../../core/responses/NotImplementedHttpResponse.hpp"
 
 // Protected constructor
 AController::AController()
@@ -54,19 +56,11 @@ bool AController::supportsMethod(const std::string& method) const
 // Helper method to create 405 Method Not Allowed response
 HttpResponse AController::createMethodNotAllowedResponse() const
 {
-    HttpResponse response;
-    response.setStatus(405, "Method Not Allowed");
-    response.setHeader("Content-Type", "text/plain");
-    response.setBody("HTTP method not supported by this controller");
-    return response;
+    return MethodNotAllowedHttpResponse("HTTP method not supported by this controller");
 }
 
 // Helper method to create 501 Not Implemented response
 HttpResponse AController::createNotImplementedResponse() const
 {
-    HttpResponse response;
-    response.setStatus(501, "Not Implemented");
-    response.setHeader("Content-Type", "text/plain");
-    response.setBody("Method not implemented yet");
-    return response;
+    return NotImplementedHttpResponse("Method not implemented yet");
 }
