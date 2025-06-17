@@ -1,0 +1,78 @@
+#include "HttpResponse.hpp"
+#include <cstring>
+#include <sstream>
+
+// Canonical form
+HttpResponse::HttpResponse() : _statusCode(200), _reasonPhrase("OK"), _body(""), _headers("")
+{
+    setHeader("Content-Type", "text/plain");
+    updateContentLength();
+}
+
+HttpResponse::HttpResponse(const HttpResponse& other)
+    : _statusCode(other._statusCode), _reasonPhrase(other._reasonPhrase), _body(other._body), _headers(other._headers)
+{
+}
+
+HttpResponse& HttpResponse::operator=(const HttpResponse& other)
+{
+    if (this != &other)
+    {
+        _statusCode = other._statusCode;
+        _reasonPhrase = other._reasonPhrase;
+        _body = other._body;
+        _headers = other._headers;
+    }
+    return *this;
+}
+
+HttpResponse::~HttpResponse()
+{
+}
+
+
+// Métodos principales
+void HttpResponse::setStatus(int code, const std::string& reason)
+{
+    _statusCode = code;
+    _reasonPhrase = reason;
+}
+
+void HttpResponse::setHeader(const std::string& key, const std::string& value)
+{
+    // Simple header append (no duplicate check)
+    _headers += key + ": " + value + "\r\n";
+}
+
+void HttpResponse::setBody(const std::string& body)
+{
+    _body = body;
+    updateContentLength();
+}
+
+void HttpResponse::updateContentLength()
+{
+    // Remove any previous Content-Length header (simple approach)
+    size_t pos = _headers.find("Content-Length:");
+    if (pos != std::string::npos)
+    {
+        size_t end = _headers.find("\r\n", pos);
+        if (end != std::string::npos)
+            _headers.erase(pos, end - pos + 2);
+        else
+            _headers.erase(pos);
+    }
+    std::ostringstream oss;
+    oss << "Content-Length: " << _body.size() << "\r\n";
+    _headers += oss.str();
+}
+
+std::string HttpResponse::toString() const
+{
+    std::ostringstream oss;
+    oss << "HTTP/1.1 " << _statusCode << " " << _reasonPhrase << "\r\n";
+    oss << _headers;
+    oss << "\r\n";
+    oss << _body;
+    return oss.str();
+}
