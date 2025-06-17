@@ -2,18 +2,21 @@
 #include "../../core/responses/OkHttpResponse.hpp"
 #include <sstream>
 
-TaskController::TaskController()
+TaskController::TaskController() : AController()
 {
 }
 
-TaskController::TaskController(const TaskController& other)
+TaskController::TaskController(const TaskController& other) : AController(other)
 {
-    (void)other; // No state to copy
+    (void)other; // No additional state to copy
 }
 
 TaskController& TaskController::operator=(const TaskController& other)
 {
-    (void)other; // No state to copy
+    if (this != &other)
+    {
+        AController::operator=(other);
+    }
     return *this;
 }
 
@@ -36,24 +39,19 @@ HttpResponse TaskController::handleGet(const HttpRequest& request)
 
 HttpResponse TaskController::handlePost(const HttpRequest& request)
 {
-    HttpResponse response;
     // Minimal implementation for POST
     (void)request; // Unused parameter
-    response.setStatus(501, "Not Implemented");
-    response.setHeader("Content-Type", "text/plain");
-    response.setBody("POST method not implemented yet");
-
-    return response;
+    return createNotImplementedResponse();
 }
 
 HttpResponse TaskController::handleDelete(const HttpRequest& request)
 {
-    HttpResponse response;
     // Minimal implementation for DELETE
     (void)request; // Unused parameter
-    response.setStatus(501, "Not Implemented");
-    response.setHeader("Content-Type", "text/plain");
-    response.setBody("DELETE method not implemented yet");
+    return createNotImplementedResponse();
+}
 
-    return response;
+bool TaskController::supportsMethod(const std::string& method) const
+{
+    return (method == "GET" || method == "POST" || method == "DELETE");
 }

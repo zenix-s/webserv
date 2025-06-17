@@ -13,7 +13,9 @@ SRCS    := src/main.cpp \
            src/core/responses/BadRequestHttpResponse.cpp \
            src/HttpRequestHandler.cpp \
            src/presentation/controller/ControllerRegistry.cpp \
+           src/presentation/controller/AController.cpp \
            src/presentation/controller/TaskController.cpp \
+           src/presentation/controller/UserController.cpp \
 
 OBJS    := $(SRCS:.cpp=.o)
 

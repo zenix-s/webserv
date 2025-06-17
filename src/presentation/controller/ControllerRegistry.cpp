@@ -1,5 +1,7 @@
 #include "ControllerRegistry.hpp"
 #include "TaskController.hpp"
+#include "UserController.hpp"
+#include "IController.hpp"
 
 // Constructor
 ControllerRegistry::ControllerRegistry()
@@ -34,6 +36,10 @@ HttpResponse ControllerRegistry::processRequest(const HttpRequest& request)
     {
         return handleTaskRoute(request);
     }
+    else if (matchesRoute(url, "/user"))
+    {
+        return handleUserRoute(request);
+    }
 
     // No matching route found
     return handleNotFound();
@@ -43,8 +49,28 @@ HttpResponse ControllerRegistry::processRequest(const HttpRequest& request)
 HttpResponse ControllerRegistry::handleTaskRoute(const HttpRequest& request)
 {
     TaskController controller;
+    return handleControllerRequest(controller, request);
+}
+
+// Handle /user route
+HttpResponse ControllerRegistry::handleUserRoute(const HttpRequest& request)
+{
+    UserController controller;
+    return handleControllerRequest(controller, request);
+}
+
+// Generic method to handle requests using controller interface
+HttpResponse ControllerRegistry::handleControllerRequest(IController& controller, const HttpRequest& request)
+{
     const std::string& method = request.getMethod();
 
+    // Check if the controller supports this method
+    if (!controller.supportsMethod(method))
+    {
+        return handleMethodNotAllowed();
+    }
+
+    // Route to appropriate handler method
     if (method == "GET")
     {
         return controller.handleGet(request);
