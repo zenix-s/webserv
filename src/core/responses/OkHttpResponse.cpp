@@ -27,10 +27,7 @@ OkHttpResponse::OkHttpResponse(const OkHttpResponse& other) : HttpResponse(other
 
 OkHttpResponse& OkHttpResponse::operator=(const OkHttpResponse& other)
 {
-    if (this != &other)
-    {
-        HttpResponse::operator=(other);
-    }
+    (void)other;
     return *this;
 }
 

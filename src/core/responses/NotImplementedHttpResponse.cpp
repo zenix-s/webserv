@@ -28,10 +28,7 @@ NotImplementedHttpResponse::NotImplementedHttpResponse(const NotImplementedHttpR
 
 NotImplementedHttpResponse& NotImplementedHttpResponse::operator=(const NotImplementedHttpResponse& other)
 {
-    if (this != &other)
-    {
-        HttpResponse::operator=(other);
-    }
+    (void)other;
     return *this;
 }
 

@@ -27,10 +27,7 @@ BadRequestHttpResponse::BadRequestHttpResponse(const BadRequestHttpResponse& oth
 
 BadRequestHttpResponse& BadRequestHttpResponse::operator=(const BadRequestHttpResponse& other)
 {
-    if (this != &other)
-    {
-        HttpResponse::operator=(other);
-    }
+    (void)other;
     return *this;
 }
 

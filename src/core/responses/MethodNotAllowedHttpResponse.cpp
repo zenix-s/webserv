@@ -29,10 +29,7 @@ MethodNotAllowedHttpResponse::MethodNotAllowedHttpResponse(const MethodNotAllowe
 
 MethodNotAllowedHttpResponse& MethodNotAllowedHttpResponse::operator=(const MethodNotAllowedHttpResponse& other)
 {
-    if (this != &other)
-    {
-        HttpResponse::operator=(other);
-    }
+    (void)other;
     return *this;
 }
 
