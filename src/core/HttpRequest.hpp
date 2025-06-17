@@ -15,20 +15,17 @@ class HttpRequest
     void parse(const char* raw_request);
 
   public:
-    // Canonical form
     HttpRequest(const char* raw_request);
     HttpRequest(const HttpRequest& other);
     HttpRequest& operator=(const HttpRequest& other);
     ~HttpRequest();
 
-    // Métodos de acceso
     const std::string& getMethod() const;
     const std::string& getUrl() const;
     const std::string& getVersion() const;
     const std::string& getRaw() const;
 
-    // Indica si el parseo fue exitoso
     bool isValid() const;
 };
 
-#endif // HTTPREQUEST_HPP
+#endif

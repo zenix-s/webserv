@@ -1,9 +1,9 @@
-# Makefile para compilar el servidor HTTP modular en C++98
+
 
 NAME    := webserv
 
-COMPILER     := c++
-FLAGS := -Wall -Wextra -Werror -std=c++98
+COMPILER := c++
+FLAGS    := -Wall -Wextra -Werror -std=c++98
 
 SRCS    := src/main.cpp \
            src/core/HttpServer.cpp \

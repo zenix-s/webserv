@@ -1,6 +1,5 @@
 #include "BadRequestHttpResponse.hpp"
 
-// Default constructor - creates a basic 400 Bad Request response
 BadRequestHttpResponse::BadRequestHttpResponse() : HttpResponse()
 {
     setStatus(400, "Bad Request");
@@ -8,7 +7,6 @@ BadRequestHttpResponse::BadRequestHttpResponse() : HttpResponse()
     setBody("Bad Request");
 }
 
-// Constructor with body
 BadRequestHttpResponse::BadRequestHttpResponse(const std::string& body) : HttpResponse()
 {
     setStatus(400, "Bad Request");
@@ -16,7 +14,6 @@ BadRequestHttpResponse::BadRequestHttpResponse(const std::string& body) : HttpRe
     setBody(body);
 }
 
-// Constructor with body and content type
 BadRequestHttpResponse::BadRequestHttpResponse(const std::string& body, const std::string& contentType) : HttpResponse()
 {
     setStatus(400, "Bad Request");
@@ -24,12 +21,10 @@ BadRequestHttpResponse::BadRequestHttpResponse(const std::string& body, const st
     setBody(body);
 }
 
-// Copy constructor
 BadRequestHttpResponse::BadRequestHttpResponse(const BadRequestHttpResponse& other) : HttpResponse(other)
 {
 }
 
-// Assignment operator
 BadRequestHttpResponse& BadRequestHttpResponse::operator=(const BadRequestHttpResponse& other)
 {
     if (this != &other)
@@ -39,7 +34,6 @@ BadRequestHttpResponse& BadRequestHttpResponse::operator=(const BadRequestHttpRe
     return *this;
 }
 
-// Destructor
 BadRequestHttpResponse::~BadRequestHttpResponse()
 {
 }

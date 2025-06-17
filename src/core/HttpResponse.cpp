@@ -2,7 +2,6 @@
 #include <cstring>
 #include <sstream>
 
-// Canonical form
 HttpResponse::HttpResponse() : _statusCode(200), _reasonPhrase("OK"), _body(""), _headers("")
 {
     setHeader("Content-Type", "text/plain");
@@ -30,8 +29,6 @@ HttpResponse::~HttpResponse()
 {
 }
 
-
-// Métodos principales
 void HttpResponse::setStatus(int code, const std::string& reason)
 {
     _statusCode = code;
@@ -40,7 +37,6 @@ void HttpResponse::setStatus(int code, const std::string& reason)
 
 void HttpResponse::setHeader(const std::string& key, const std::string& value)
 {
-    // Simple header append (no duplicate check)
     _headers += key + ": " + value + "\r\n";
 }
 
@@ -52,7 +48,6 @@ void HttpResponse::setBody(const std::string& body)
 
 void HttpResponse::updateContentLength()
 {
-    // Remove any previous Content-Length header (simple approach)
     size_t pos = _headers.find("Content-Length:");
     if (pos != std::string::npos)
     {

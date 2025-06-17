@@ -60,7 +60,6 @@ void HttpRequest::parse(const char* raw_request)
     if (!raw_request)
         return;
 
-    // Parsear la primera línea: "METHOD URL VERSION"
     std::istringstream iss(raw_request);
     std::string        line;
 
@@ -69,19 +68,15 @@ void HttpRequest::parse(const char* raw_request)
 
     std::istringstream line_stream(line);
 
-    // Extraer el método HTTP (por ejemplo, "GET")
     if (!(line_stream >> method))
         return;
 
-    // Extraer la URL solicitada (por ejemplo, "/index.html")
     if (!(line_stream >> url))
         return;
 
-    // Extraer la versión del protocolo (por ejemplo, "HTTP/1.1")
     if (!(line_stream >> version))
         return;
 
-    // Validar que sea HTTP/1.0 o HTTP/1.1
     if (version.find("HTTP/1.") != 0)
         return;
 

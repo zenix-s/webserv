@@ -1,8 +1,7 @@
 #include "HttpServer.hpp"
-#include "HttpRequest.hpp"
 #include "../HttpRequestHandler.hpp"
+#include "HttpRequest.hpp"
 #include "HttpResponse.hpp"
-
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -45,9 +44,9 @@ bool HttpServer::setupSocket()
     int             rv;
 
     memset(&hints, 0, sizeof(hints));
-    hints.ai_family = AF_INET;       // Indica el uso de IPv4
-    hints.ai_socktype = SOCK_STREAM; // Indica el uso de TCP
-    hints.ai_flags = AI_PASSIVE;     // Indica que se usará la dirección local localhost/127.0.0.1
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = AI_PASSIVE;
 
     if ((rv = getaddrinfo(NULL, _port.c_str(), &hints, &_res)) != 0)
     {
@@ -126,10 +125,8 @@ void HttpServer::handleClient()
     {
         buf[n] = '\0';
 
-        // Parsear la solicitud
         HttpRequest        request(buf);
         HttpRequestHandler handler;
-
         HttpResponse       response = handler.handle(request);
 
         std::string respStr = response.toString();

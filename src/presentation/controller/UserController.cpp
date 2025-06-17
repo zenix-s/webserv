@@ -8,7 +8,7 @@ UserController::UserController() : AController()
 
 UserController::UserController(const UserController& other) : AController(other)
 {
-    (void)other; // No additional state to copy
+    (void)other;
 }
 
 UserController& UserController::operator=(const UserController& other)
@@ -39,9 +39,8 @@ HttpResponse UserController::handleGet(const HttpRequest& request)
 
 HttpResponse UserController::handlePost(const HttpRequest& request)
 {
-    // Simple implementation for POST /user
-    (void)request; // Unused parameter for now
-    
+    (void)request;
+
     std::stringstream body;
     body << "<html><body>"
          << "<h1>User Created</h1>"

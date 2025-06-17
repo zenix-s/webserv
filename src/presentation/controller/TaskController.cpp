@@ -8,7 +8,7 @@ TaskController::TaskController() : AController()
 
 TaskController::TaskController(const TaskController& other) : AController(other)
 {
-    (void)other; // No additional state to copy
+    (void)other;
 }
 
 TaskController& TaskController::operator=(const TaskController& other)
@@ -26,7 +26,6 @@ TaskController::~TaskController()
 
 HttpResponse TaskController::handleGet(const HttpRequest& request)
 {
-    // Simple implementation for GET /task
     std::stringstream body;
     body << "<html><body>"
          << "<h1>Task List</h1>"
@@ -39,15 +38,13 @@ HttpResponse TaskController::handleGet(const HttpRequest& request)
 
 HttpResponse TaskController::handlePost(const HttpRequest& request)
 {
-    // Minimal implementation for POST
-    (void)request; // Unused parameter
+    (void)request;
     return createNotImplementedResponse();
 }
 
 HttpResponse TaskController::handleDelete(const HttpRequest& request)
 {
-    // Minimal implementation for DELETE
-    (void)request; // Unused parameter
+    (void)request;
     return createNotImplementedResponse();
 }
 

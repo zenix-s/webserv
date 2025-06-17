@@ -1,6 +1,5 @@
 #include "NotImplementedHttpResponse.hpp"
 
-// Default constructor - creates a basic 501 Not Implemented response
 NotImplementedHttpResponse::NotImplementedHttpResponse() : HttpResponse()
 {
     setStatus(501, "Not Implemented");
@@ -8,7 +7,6 @@ NotImplementedHttpResponse::NotImplementedHttpResponse() : HttpResponse()
     setBody("Not Implemented");
 }
 
-// Constructor with body
 NotImplementedHttpResponse::NotImplementedHttpResponse(const std::string& body) : HttpResponse()
 {
     setStatus(501, "Not Implemented");
@@ -16,20 +14,18 @@ NotImplementedHttpResponse::NotImplementedHttpResponse(const std::string& body) 
     setBody(body);
 }
 
-// Constructor with body and content type
-NotImplementedHttpResponse::NotImplementedHttpResponse(const std::string& body, const std::string& contentType) : HttpResponse()
+NotImplementedHttpResponse::NotImplementedHttpResponse(const std::string& body, const std::string& contentType)
+    : HttpResponse()
 {
     setStatus(501, "Not Implemented");
     setHeader("Content-Type", contentType);
     setBody(body);
 }
 
-// Copy constructor
 NotImplementedHttpResponse::NotImplementedHttpResponse(const NotImplementedHttpResponse& other) : HttpResponse(other)
 {
 }
 
-// Assignment operator
 NotImplementedHttpResponse& NotImplementedHttpResponse::operator=(const NotImplementedHttpResponse& other)
 {
     if (this != &other)
@@ -39,7 +35,6 @@ NotImplementedHttpResponse& NotImplementedHttpResponse::operator=(const NotImple
     return *this;
 }
 
-// Destructor
 NotImplementedHttpResponse::~NotImplementedHttpResponse()
 {
 }
