@@ -1,10 +1,10 @@
 #ifndef CONTROLLER_REGISTRY_HPP
 #define CONTROLLER_REGISTRY_HPP
 
-#include "../../core/HttpRequest.hpp"
-#include "../../core/HttpResponse.hpp"
-#include "AController.hpp"
-#include "IController.hpp"
+#include "../http/HttpRequest.hpp"
+#include "../http/HttpResponse.hpp"
+#include "base/AController.hpp"
+#include "base/IController.hpp"
 #include <string>
 #include <vector>
 

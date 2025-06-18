@@ -5,15 +5,16 @@ NAME    := webserv
 COMPILER := c++
 FLAGS    := -Wall -Wextra -Werror -std=c++98
 
-SRCS    := src/main.cpp \
-           src/core/HttpServer.cpp \
-           src/core/HttpRequest.cpp \
-           src/core/HttpResponse.cpp \
-           src/HttpRequestHandler.cpp \
-           src/presentation/controller/ControllerRegistry.cpp \
-           src/presentation/controller/AController.cpp \
-           src/presentation/controller/TaskController.cpp \
-           src/presentation/controller/UserController.cpp \
+SRCS    :=	./src/main.cpp \
+			./src/server/HttpServer.cpp \
+			./src/http/HttpRequest.cpp \
+			./src/http/HttpResponse.cpp \
+			./src/http/HttpRequestHandler.cpp \
+			./src/controllers/base/AController.cpp \
+			./src/controllers/ControllerRegistry.cpp \
+			./src/controllers/TaskController.cpp \
+			./src/controllers/UserController.cpp \
+
 
 OBJS    := $(SRCS:.cpp=.o)
 

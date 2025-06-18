@@ -1,7 +1,7 @@
 #include "HttpServer.hpp"
-#include "../HttpRequestHandler.hpp"
-#include "HttpRequest.hpp"
-#include "HttpResponse.hpp"
+#include "../http/HttpRequestHandler.hpp"
+#include "../http/HttpRequest.hpp"
+#include "../http/HttpResponse.hpp"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>

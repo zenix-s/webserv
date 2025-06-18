@@ -1,6 +1,6 @@
 #include "HttpRequestHandler.hpp"
-#include "core/HttpRequest.hpp"
-#include "core/HttpResponse.hpp"
+#include "HttpRequest.hpp"
+#include "HttpResponse.hpp"
 
 HttpRequestHandler::HttpRequestHandler() : _registry()
 {

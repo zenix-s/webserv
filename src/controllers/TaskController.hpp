@@ -1,7 +1,7 @@
 #ifndef TASK_CONTROLLER_HPP
 #define TASK_CONTROLLER_HPP
 
-#include "AController.hpp"
+#include "base/AController.hpp"
 
 class TaskController : public AController
 {

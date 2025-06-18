@@ -1,7 +1,7 @@
 #ifndef USER_CONTROLLER_HPP
 #define USER_CONTROLLER_HPP
 
-#include "AController.hpp"
+#include "base/AController.hpp"
 
 class UserController : public AController
 {

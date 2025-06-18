@@ -1,8 +1,8 @@
 #ifndef ICONTROLLER_HPP
 #define ICONTROLLER_HPP
 
-#include "../../core/HttpRequest.hpp"
-#include "../../core/HttpResponse.hpp"
+#include "../../http/HttpRequest.hpp"
+#include "../../http/HttpResponse.hpp"
 #include <string>
 
 class IController
