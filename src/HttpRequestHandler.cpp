@@ -1,7 +1,6 @@
 #include "HttpRequestHandler.hpp"
 #include "core/HttpRequest.hpp"
 #include "core/HttpResponse.hpp"
-#include "core/responses/BadRequestHttpResponse.hpp"
 
 HttpRequestHandler::HttpRequestHandler() : _registry()
 {
@@ -14,9 +13,7 @@ HttpRequestHandler::HttpRequestHandler(const HttpRequestHandler& other) : _regis
 HttpRequestHandler& HttpRequestHandler::operator=(const HttpRequestHandler& other)
 {
     if (this != &other)
-    {
         _registry = other._registry;
-    }
     return *this;
 }
 
@@ -27,14 +24,7 @@ HttpRequestHandler::~HttpRequestHandler()
 HttpResponse HttpRequestHandler::handle(const HttpRequest& request)
 {
     if (!request.isValid())
-    {
-        return createBadRequestResponse();
-    }
+        return HttpResponse::badRequest();
 
     return _registry.processRequest(request);
-}
-
-HttpResponse HttpRequestHandler::createBadRequestResponse()
-{
-    return BadRequestHttpResponse();
 }

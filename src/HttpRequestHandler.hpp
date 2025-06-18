@@ -12,8 +12,6 @@ class HttpRequestHandler
   private:
     ControllerRegistry _registry;
 
-    HttpResponse createBadRequestResponse();
-
   public:
     HttpRequestHandler();
     HttpRequestHandler(const HttpRequestHandler& other);

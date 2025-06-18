@@ -1,5 +1,4 @@
 #include "TaskController.hpp"
-#include "../../core/responses/OkHttpResponse.hpp"
 #include <sstream>
 
 TaskController::TaskController() : AController("/task")
@@ -13,10 +12,7 @@ TaskController::TaskController(const TaskController& other) : AController(other)
 
 TaskController& TaskController::operator=(const TaskController& other)
 {
-    if (this != &other)
-    {
-        AController::operator=(other);
-    }
+    (void)other;
     return *this;
 }
 
@@ -33,10 +29,10 @@ HttpResponse TaskController::handleGet(const HttpRequest& request)
          << "<p>Request URL: " << request.getUrl() << "</p>"
          << "</body></html>";
 
-    return OkHttpResponse(body.str(), "text/html");
+    return HttpResponse::ok(body.str(), "text/html");
 }
 
 bool TaskController::supportsMethod(const std::string& method) const
 {
-    return (method == "GET" || method == "POST" || method == "DELETE");
+    return (method == "GET");
 }

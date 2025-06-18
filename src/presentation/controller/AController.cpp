@@ -1,6 +1,5 @@
 #include "AController.hpp"
 #include "../../core/HttpResponse.hpp"
-#include "../../core/responses/MethodNotAllowedHttpResponse.hpp"
 #include <string>
 
 AController::AController() : _route("/")
@@ -37,19 +36,19 @@ const std::string& AController::getRoute() const
 HttpResponse AController::handleGet(const HttpRequest& request)
 {
     (void)request;
-    return MethodNotAllowedHttpResponse();
+    return HttpResponse::methodNotAllowed();
 }
 
 HttpResponse AController::handlePost(const HttpRequest& request)
 {
     (void)request;
-    return MethodNotAllowedHttpResponse();
+    return HttpResponse::methodNotAllowed();
 }
 
 HttpResponse AController::handleDelete(const HttpRequest& request)
 {
     (void)request;
-    return MethodNotAllowedHttpResponse();
+    return HttpResponse::methodNotAllowed();
 }
 
 bool AController::supportsMethod(const std::string& method) const

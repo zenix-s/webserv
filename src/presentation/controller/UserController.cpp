@@ -1,5 +1,4 @@
 #include "UserController.hpp"
-#include "../../core/responses/OkHttpResponse.hpp"
 #include <sstream>
 
 UserController::UserController() : AController("/user")
@@ -13,10 +12,7 @@ UserController::UserController(const UserController& other) : AController(other)
 
 UserController& UserController::operator=(const UserController& other)
 {
-    if (this != &other)
-    {
-        AController::operator=(other);
-    }
+    (void)other;
     return *this;
 }
 
@@ -34,7 +30,7 @@ HttpResponse UserController::handleGet(const HttpRequest& request)
          << "<p>Supported methods: GET, POST</p>"
          << "</body></html>";
 
-    return OkHttpResponse(body.str(), "text/html");
+    return HttpResponse::ok(body.str(), "text/html");
 }
 
 HttpResponse UserController::handlePost(const HttpRequest& request)
@@ -48,7 +44,7 @@ HttpResponse UserController::handlePost(const HttpRequest& request)
          << "<p>This is a demonstration of POST handling.</p>"
          << "</body></html>";
 
-    return OkHttpResponse(body.str(), "text/html");
+    return HttpResponse::ok(body.str(), "text/html");
 }
 
 bool UserController::supportsMethod(const std::string& method) const

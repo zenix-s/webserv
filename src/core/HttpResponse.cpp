@@ -71,3 +71,48 @@ std::string HttpResponse::toString() const
     oss << _body;
     return oss.str();
 }
+
+HttpResponse HttpResponse::ok(const std::string& body, const std::string& contentType)
+{
+    HttpResponse response;
+    response.setStatus(200, "OK");
+    response.setHeader("Content-Type", contentType);
+    response.setBody(body);
+    return response;
+}
+
+HttpResponse HttpResponse::badRequest(const std::string& body, const std::string& contentType)
+{
+    HttpResponse response;
+    response.setStatus(400, "Bad Request");
+    response.setHeader("Content-Type", contentType);
+    response.setBody(body);
+    return response;
+}
+
+HttpResponse HttpResponse::notFound(const std::string& body, const std::string& contentType)
+{
+    HttpResponse response;
+    response.setStatus(404, "Not Found");
+    response.setHeader("Content-Type", contentType);
+    response.setBody(body);
+    return response;
+}
+
+HttpResponse HttpResponse::notImplemented(const std::string& body, const std::string& contentType)
+{
+    HttpResponse response;
+    response.setStatus(501, "Not Implemented");
+    response.setHeader("Content-Type", contentType);
+    response.setBody(body);
+    return response;
+}
+
+HttpResponse HttpResponse::methodNotAllowed(const std::string& body, const std::string& contentType)
+{
+    HttpResponse response;
+    response.setStatus(405, "Method Not Allowed");
+    response.setHeader("Content-Type", contentType);
+    response.setBody(body);
+    return response;
+}

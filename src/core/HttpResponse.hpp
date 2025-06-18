@@ -24,6 +24,12 @@ class HttpResponse
     void setBody(const std::string& body);
 
     std::string toString() const;
+
+    static HttpResponse ok(const std::string& body = "", const std::string& contentType = "text/plain");
+    static HttpResponse badRequest(const std::string& body = "", const std::string& contentType = "text/plain");
+    static HttpResponse notFound(const std::string& body = "", const std::string& contentType = "text/plain");
+    static HttpResponse notImplemented(const std::string& body = "", const std::string& contentType = "text/plain");
+    static HttpResponse methodNotAllowed(const std::string& body = "", const std::string& contentType = "text/plain");
 };
 
 #endif

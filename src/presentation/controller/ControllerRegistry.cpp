@@ -1,6 +1,4 @@
 #include "ControllerRegistry.hpp"
-#include "../../core/responses/MethodNotAllowedHttpResponse.hpp"
-#include "../../core/responses/NotFoundHttpResponse.hpp"
 #include "AController.hpp"
 #include "IController.hpp"
 #include "TaskController.hpp"
@@ -42,7 +40,7 @@ HttpResponse ControllerRegistry::processRequest(const HttpRequest& request)
         }
     }
 
-    return NotFoundHttpResponse();
+    return HttpResponse::notFound();
 }
 
 HttpResponse ControllerRegistry::handleControllerRequest(IController& controller, const HttpRequest& request)
@@ -50,7 +48,7 @@ HttpResponse ControllerRegistry::handleControllerRequest(IController& controller
     const std::string& method = request.getMethod();
 
     if (!controller.supportsMethod(method))
-        return MethodNotAllowedHttpResponse();
+        return HttpResponse::methodNotAllowed();
 
     if (method == "GET")
         return controller.handleGet(request);
@@ -59,7 +57,7 @@ HttpResponse ControllerRegistry::handleControllerRequest(IController& controller
     else if (method == "DELETE")
         return controller.handleDelete(request);
     else
-        return MethodNotAllowedHttpResponse();
+        return HttpResponse::methodNotAllowed();
 }
 
 bool ControllerRegistry::matchesRoute(const std::string& url, const std::string& routePrefix) const
