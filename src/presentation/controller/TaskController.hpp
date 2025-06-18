@@ -12,8 +12,6 @@ class TaskController : public AController
     virtual ~TaskController();
 
     virtual HttpResponse handleGet(const HttpRequest& request);
-    virtual HttpResponse handlePost(const HttpRequest& request);
-    virtual HttpResponse handleDelete(const HttpRequest& request);
 
     virtual bool supportsMethod(const std::string& method) const;
 };

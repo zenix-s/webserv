@@ -1,11 +1,15 @@
 #include "ControllerRegistry.hpp"
 #include "../../core/responses/MethodNotAllowedHttpResponse.hpp"
+#include "../../core/responses/NotFoundHttpResponse.hpp"
+#include "AController.hpp"
 #include "IController.hpp"
 #include "TaskController.hpp"
 #include "UserController.hpp"
 
 ControllerRegistry::ControllerRegistry()
 {
+    _controllers.push_back(new TaskController);
+    _controllers.push_back(new UserController);
 }
 
 ControllerRegistry::ControllerRegistry(const ControllerRegistry& other)
@@ -21,34 +25,24 @@ ControllerRegistry& ControllerRegistry::operator=(const ControllerRegistry& othe
 
 ControllerRegistry::~ControllerRegistry()
 {
+    for (std::vector<AController*>::iterator it = _controllers.begin(); it != _controllers.end(); ++it)
+        delete *it;
 }
 
 HttpResponse ControllerRegistry::processRequest(const HttpRequest& request)
 {
     const std::string& url = request.getUrl();
 
-    if (matchesRoute(url, "/task"))
+    for (std::vector<AController*>::iterator it = _controllers.begin(); it != _controllers.end(); ++it)
     {
-        return handleTaskRoute(request);
+        AController* controller = *it;
+        if (matchesRoute(url, controller->getRoute()))
+        {
+            return handleControllerRequest(*controller, request);
+        }
     }
-    else if (matchesRoute(url, "/user"))
-    {
-        return handleUserRoute(request);
-    }
 
-    return handleNotFound();
-}
-
-HttpResponse ControllerRegistry::handleTaskRoute(const HttpRequest& request)
-{
-    TaskController controller;
-    return handleControllerRequest(controller, request);
-}
-
-HttpResponse ControllerRegistry::handleUserRoute(const HttpRequest& request)
-{
-    UserController controller;
-    return handleControllerRequest(controller, request);
+    return NotFoundHttpResponse();
 }
 
 HttpResponse ControllerRegistry::handleControllerRequest(IController& controller, const HttpRequest& request)
@@ -56,9 +50,7 @@ HttpResponse ControllerRegistry::handleControllerRequest(IController& controller
     const std::string& method = request.getMethod();
 
     if (!controller.supportsMethod(method))
-    {
-        return handleMethodNotAllowed();
-    }
+        return MethodNotAllowedHttpResponse();
 
     if (method == "GET")
         return controller.handleGet(request);
@@ -67,21 +59,7 @@ HttpResponse ControllerRegistry::handleControllerRequest(IController& controller
     else if (method == "DELETE")
         return controller.handleDelete(request);
     else
-        return handleMethodNotAllowed();
-}
-
-HttpResponse ControllerRegistry::handleNotFound()
-{
-    HttpResponse response;
-    response.setStatus(404, "Not Found");
-    response.setHeader("Content-Type", "text/plain");
-    response.setBody("No controller found for this route");
-    return response;
-}
-
-HttpResponse ControllerRegistry::handleMethodNotAllowed()
-{
-    return MethodNotAllowedHttpResponse("HTTP method not supported");
+        return MethodNotAllowedHttpResponse();
 }
 
 bool ControllerRegistry::matchesRoute(const std::string& url, const std::string& routePrefix) const

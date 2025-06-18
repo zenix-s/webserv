@@ -1,20 +1,27 @@
 #include "AController.hpp"
 #include "../../core/HttpResponse.hpp"
 #include "../../core/responses/MethodNotAllowedHttpResponse.hpp"
-#include "../../core/responses/NotImplementedHttpResponse.hpp"
+#include <string>
 
-AController::AController()
+AController::AController() : _route("/")
 {
 }
 
-AController::AController(const AController& other)
+AController::AController(const std::string& route) : _route(route)
+{
+}
+
+AController::AController(const AController& other) : _route(other._route)
 {
     (void)other;
 }
 
 AController& AController::operator=(const AController& other)
 {
-    (void)other;
+    if (this != &other)
+    {
+        _route = other._route;
+    }
     return *this;
 }
 
@@ -22,35 +29,30 @@ AController::~AController()
 {
 }
 
+const std::string& AController::getRoute() const
+{
+    return _route;
+}
+
 HttpResponse AController::handleGet(const HttpRequest& request)
 {
     (void)request;
-    return createMethodNotAllowedResponse();
+    return MethodNotAllowedHttpResponse();
 }
 
 HttpResponse AController::handlePost(const HttpRequest& request)
 {
     (void)request;
-    return createMethodNotAllowedResponse();
+    return MethodNotAllowedHttpResponse();
 }
 
 HttpResponse AController::handleDelete(const HttpRequest& request)
 {
     (void)request;
-    return createMethodNotAllowedResponse();
+    return MethodNotAllowedHttpResponse();
 }
 
 bool AController::supportsMethod(const std::string& method) const
 {
     return (method == "GET" || method == "POST" || method == "DELETE");
-}
-
-HttpResponse AController::createMethodNotAllowedResponse() const
-{
-    return MethodNotAllowedHttpResponse("HTTP method not supported by this controller");
-}
-
-HttpResponse AController::createNotImplementedResponse() const
-{
-    return NotImplementedHttpResponse("Method not implemented yet");
 }

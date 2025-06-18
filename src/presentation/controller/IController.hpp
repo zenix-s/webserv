@@ -3,6 +3,7 @@
 
 #include "../../core/HttpRequest.hpp"
 #include "../../core/HttpResponse.hpp"
+#include <string>
 
 class IController
 {

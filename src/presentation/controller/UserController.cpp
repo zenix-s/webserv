@@ -2,7 +2,7 @@
 #include "../../core/responses/OkHttpResponse.hpp"
 #include <sstream>
 
-UserController::UserController() : AController()
+UserController::UserController() : AController("/user")
 {
 }
 

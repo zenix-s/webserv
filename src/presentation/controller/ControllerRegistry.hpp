@@ -3,11 +3,22 @@
 
 #include "../../core/HttpRequest.hpp"
 #include "../../core/HttpResponse.hpp"
+#include "AController.hpp"
 #include "IController.hpp"
 #include <string>
+#include <vector>
 
 class ControllerRegistry
 {
+  private:
+    std::vector<AController*> _controllers;
+
+    HttpResponse handleNotFound();
+
+    bool matchesRoute(const std::string& url, const std::string& routePrefix) const;
+
+    HttpResponse handleControllerRequest(IController& controller, const HttpRequest& request);
+
   public:
     ControllerRegistry();
     ControllerRegistry(const ControllerRegistry& other);
@@ -15,16 +26,6 @@ class ControllerRegistry
     ~ControllerRegistry();
 
     HttpResponse processRequest(const HttpRequest& request);
-
-  private:
-    HttpResponse handleTaskRoute(const HttpRequest& request);
-    HttpResponse handleUserRoute(const HttpRequest& request);
-    HttpResponse handleNotFound();
-    HttpResponse handleMethodNotAllowed();
-
-    bool matchesRoute(const std::string& url, const std::string& routePrefix) const;
-
-    HttpResponse handleControllerRequest(IController& controller, const HttpRequest& request);
 };
 
 #endif

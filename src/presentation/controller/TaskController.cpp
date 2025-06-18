@@ -2,7 +2,7 @@
 #include "../../core/responses/OkHttpResponse.hpp"
 #include <sstream>
 
-TaskController::TaskController() : AController()
+TaskController::TaskController() : AController("/task")
 {
 }
 
@@ -34,18 +34,6 @@ HttpResponse TaskController::handleGet(const HttpRequest& request)
          << "</body></html>";
 
     return OkHttpResponse(body.str(), "text/html");
-}
-
-HttpResponse TaskController::handlePost(const HttpRequest& request)
-{
-    (void)request;
-    return createNotImplementedResponse();
-}
-
-HttpResponse TaskController::handleDelete(const HttpRequest& request)
-{
-    (void)request;
-    return createNotImplementedResponse();
 }
 
 bool TaskController::supportsMethod(const std::string& method) const
